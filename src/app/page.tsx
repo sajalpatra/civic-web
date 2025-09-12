@@ -268,53 +268,139 @@ export default function Home() {
 
       {/* Hero Section */}
       <main id="hero" className="relative overflow-hidden pt-16">
-        {/* Dark Hero Background with Parallax */}
+        {/* Enhanced Darker Hero Background with Multiple Layers */}
         <motion.div className="absolute inset-0 z-0" style={{ y, opacity }}>
           <div className="relative h-screen w-full">
-            {/* Primary Dark Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 z-0" />
+            {/* Primary Darker Background with Rich Gradients */}
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-slate-900 to-black z-0" />
 
-            {/* Overlay with subtle color gradients */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-indigo-900/20 z-5" />
+            {/* Secondary Darker Gradient Layer */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/40 via-indigo-950/30 to-slate-950/50 z-1" />
 
-            {/* Animated gradient overlay */}
+            {/* Third Gradient Layer with Animation */}
             <motion.div
-              className="absolute inset-0 z-10"
+              className="absolute inset-0 z-2"
               animate={{
                 background: [
-                  "linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(59, 130, 246, 0.1) 100%)",
-                  "linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(59, 130, 246, 0.1) 50%, rgba(99, 102, 241, 0.15) 100%)",
-                  "linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(59, 130, 246, 0.1) 100%)",
+                  "radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 50%)",
+                  "radial-gradient(circle at 60% 20%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(255, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 40%, rgba(139, 92, 246, 0.2) 0%, transparent 50%)",
+                  "radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 50%)",
                 ],
               }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             />
-            {/* Animated SVG Background */}
+
+            {/* Overlay with Dynamic Color Gradients */}
+            <motion.div
+              className="absolute inset-0 z-3"
+              animate={{
+                background: [
+                  "linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.15) 25%, rgba(236, 72, 153, 0.1) 50%, rgba(59, 130, 246, 0.15) 75%, rgba(168, 85, 247, 0.1) 100%)",
+                  "linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(236, 72, 153, 0.1) 25%, rgba(99, 102, 241, 0.15) 50%, rgba(139, 92, 246, 0.1) 75%, rgba(59, 130, 246, 0.15) 100%)",
+                  "linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.15) 25%, rgba(168, 85, 247, 0.1) 50%, rgba(236, 72, 153, 0.15) 75%, rgba(139, 92, 246, 0.1) 100%)",
+                ],
+              }}
+              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+            />
+
+            {/* Animated Mesh Gradient Background */}
+            <motion.div
+              className="absolute inset-0 z-4 opacity-20"
+              animate={{
+                background: [
+                  "conic-gradient(from 0deg at 50% 50%, #8b5cf6 0deg, #ec4899 90deg, #3b82f6 180deg, #10b981 270deg, #8b5cf6 360deg)",
+                  "conic-gradient(from 90deg at 50% 50%, #ec4899 0deg, #3b82f6 90deg, #10b981 180deg, #8b5cf6 270deg, #ec4899 360deg)",
+                  "conic-gradient(from 180deg at 50% 50%, #3b82f6 0deg, #10b981 90deg, #8b5cf6 180deg, #ec4899 270deg, #3b82f6 360deg)",
+                  "conic-gradient(from 270deg at 50% 50%, #10b981 0deg, #8b5cf6 90deg, #ec4899 180deg, #3b82f6 270deg, #10b981 360deg)",
+                ],
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              style={{
+                filter: "blur(60px)",
+                transform: "scale(1.5)",
+              }}
+            />
+
+            {/* Animated SVG Background with Enhanced Gradients */}
             <motion.div
               className="absolute inset-0 z-5"
               animate={{ rotate: 360 }}
-              transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
             >
-              <svg className="w-full h-full opacity-10" viewBox="0 0 1000 1000">
+              <svg className="w-full h-full opacity-30" viewBox="0 0 1000 1000">
                 <defs>
                   <linearGradient
-                    id="grad1"
+                    id="gradient1"
                     x1="0%"
                     y1="0%"
                     x2="100%"
                     y2="100%"
                   >
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
-                    <stop offset="50%" stopColor="#3B82F6" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="#6366F1" stopOpacity="0.3" />
+                    <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3" />
+                    <stop offset="50%" stopColor="#ec4899" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.3" />
                   </linearGradient>
+                  <linearGradient
+                    id="gradient2"
+                    x1="100%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.2" />
+                    <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.2" />
+                  </linearGradient>
+                  <radialGradient id="radialGradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#ec4899" stopOpacity="0.4" />
+                    <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.4" />
+                  </radialGradient>
                 </defs>
-                <circle cx="200" cy="200" r="150" fill="url(#grad1)" />
-                <circle cx="800" cy="300" r="100" fill="url(#grad1)" />
-                <circle cx="400" cy="700" r="120" fill="url(#grad1)" />
-                <circle cx="700" cy="800" r="80" fill="url(#grad1)" />
+                <circle cx="200" cy="200" r="100" fill="url(#gradient1)" />
+                <circle cx="800" cy="300" r="150" fill="url(#gradient2)" />
+                <circle cx="500" cy="700" r="120" fill="url(#radialGradient)" />
+                <polygon
+                  points="100,800 300,600 500,800 300,1000"
+                  fill="url(#gradient1)"
+                />
+                <polygon
+                  points="700,100 900,300 700,500 500,300"
+                  fill="url(#gradient2)"
+                />
               </svg>
             </motion.div>
+
+            {/* Additional Floating Gradient Orbs */}
+            <motion.div
+              className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full opacity-20"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%)",
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.2, 0.4, 0.2],
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="absolute top-3/4 right-1/4 w-24 h-24 rounded-full opacity-25"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%)",
+              }}
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.25, 0.5, 0.25],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
+            />
           </div>
         </motion.div>
 
@@ -322,7 +408,7 @@ export default function Home() {
         <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 min-h-screen flex items-center">
           {/* Floating Animation Elements */}
           <motion.div
-            className="absolute top-20 left-10 w-4 h-4 bg-purple-500 rounded-full opacity-30"
+            className="absolute top-20 left-10 w-4 h-4 bg-purple-900 rounded-full opacity-30"
             animate={{
               y: [0, -20, 0],
               scale: [1, 1.2, 1],
@@ -365,34 +451,88 @@ export default function Home() {
             {/* Left Content */}
             <div className="text-center lg:text-left">
               <motion.h1
-                className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
+                className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6"
                 initial={{ x: -100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 1, ease: "easeOut" }}
               >
                 <motion.span
-                  className="bg-gradient-to-r from-blue-200 via-purple-600 to-pink-200 bg-clip-text text-transparent block"
+                  className="block relative"
                   whileHover={{
                     scale: 1.05,
-                    textShadow: "0 0 20px rgba(147, 51, 234, 0.5)",
                   }}
                   transition={{ duration: 0.6 }}
                 >
-                  Civic Reports
+                  <motion.span
+                    className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                    animate={{
+                      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                    }}
+                    style={{
+                      backgroundSize: "200% 200%",
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    Civic Reports
+                  </motion.span>
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 opacity-20 blur-xl"
+                    animate={{
+                      scale: [1, 1.1, 1],
+                      opacity: [0.2, 0.4, 0.2],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
                 </motion.span>
                 <motion.span
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 block mt-2"
+                  className="block mt-2 relative"
                   whileHover={{
-                    scale: 1.1,
-                    textShadow: "0 0 30px rgba(59, 130, 246, 0.7)",
+                    scale: 1.05,
                   }}
                   transition={{ duration: 0.8 }}
                 >
-                  Admin Dashboard
+                  <motion.span
+                    className="bg-gradient-to-r from-gray-400 via-blue-400 to-purple-600 bg-clip-text text-transparent"
+                    animate={{
+                      backgroundPosition: ["100% 50%", "0% 50%", "100% 50%"],
+                    }}
+                    style={{
+                      backgroundSize: "200% 200%",
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    Admin Dashboard
+                  </motion.span>
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 opacity-20 blur-xl"
+                    animate={{
+                      scale: [1.1, 1, 1.1],
+                      opacity: [0.3, 0.1, 0.3],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 1,
+                    }}
+                  />
                 </motion.span>
+                <motion.span>Admin Dashboard</motion.span>
               </motion.h1>
               <motion.p
-                className="text-xl lg:text-2xl text-gray-200 mb-8 leading-relaxed max-w-2xl"
+                className="text-lg lg:text-xl text-gray-300 mb-6 leading-relaxed max-w-2xl"
                 initial={{ x: -100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 1, delay: 0.3 }}
@@ -411,17 +551,33 @@ export default function Home() {
                 transition={{ duration: 1, delay: 0.6 }}
               >
                 <motion.div
+                  className="relative group"
                   whileHover={{
                     scale: 1.05,
                     y: -5,
-                    boxShadow: "0 25px 50px -12px rgba(147, 51, 234, 0.4)",
                   }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 rounded-lg blur opacity-0 group-hover:opacity-75 transition-opacity duration-300"
+                    animate={{
+                      background: [
+                        "linear-gradient(45deg, #ec4899, #8b5cf6, #3b82f6)",
+                        "linear-gradient(45deg, #3b82f6, #ec4899, #8b5cf6)",
+                        "linear-gradient(45deg, #8b5cf6, #3b82f6, #ec4899)",
+                        "linear-gradient(45deg, #ec4899, #8b5cf6, #3b82f6)",
+                      ],
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
                   <Link
                     href="/login"
-                    className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300 shadow-lg hover:shadow-2xl"
+                    className="relative inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300 shadow-lg hover:shadow-2xl"
                   >
                     <motion.svg
                       className="w-5 h-5 mr-2"
@@ -442,17 +598,33 @@ export default function Home() {
                   </Link>
                 </motion.div>
                 <motion.div
+                  className="relative group"
                   whileHover={{
                     scale: 1.05,
                     y: -5,
-                    boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.3)",
                   }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.3 }}
                 >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-500 rounded-lg blur opacity-0 group-hover:opacity-60 transition-opacity duration-300"
+                    animate={{
+                      background: [
+                        "linear-gradient(45deg, #10b981, #06b6d4, #3b82f6)",
+                        "linear-gradient(45deg, #3b82f6, #10b981, #06b6d4)",
+                        "linear-gradient(45deg, #06b6d4, #3b82f6, #10b981)",
+                        "linear-gradient(45deg, #10b981, #06b6d4, #3b82f6)",
+                      ],
+                    }}
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
                   <Link
                     href="/login"
-                    className="inline-flex items-center justify-center px-8 py-4 border-2 border-transparent text-lg font-medium rounded-lg bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-700 hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 text-gray-700 dark:text-gray-200 hover:text-purple-700 dark:hover:text-purple-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 shadow-md hover:shadow-xl backdrop-blur-sm"
+                    className="relative inline-flex items-center justify-center px-8 py-4 border-2 border-gradient-to-r from-emerald-300 to-blue-300 text-lg font-medium rounded-lg bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-700/90 hover:from-emerald-50 hover:to-blue-50 dark:hover:from-emerald-900/20 dark:hover:to-blue-900/20 text-gray-700 dark:text-gray-200 hover:text-emerald-700 dark:hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 shadow-md hover:shadow-xl backdrop-blur-sm"
                   >
                     <motion.svg
                       className="w-5 h-5 mr-2"
@@ -847,16 +1019,27 @@ export default function Home() {
         {/* Features Section */}
         <motion.div
           id="features"
-          className="bg-gray-800 py-16 mt-16"
+          className="relative bg-gray-900 py-16 mt-16 overflow-hidden"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Gradient Border Effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 opacity-20">
+            <div className="absolute inset-[2px] bg-gray-900"></div>
+          </div>
+
+          {/* Top Gradient Border */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500"></div>
+
+          {/* Bottom Gradient Border */}
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500"></div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <motion.h2
-                className="text-4xl font-bold text-white mb-4"
+                className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -938,16 +1121,29 @@ export default function Home() {
         {/* How It Works Section */}
         <motion.div
           id="how-it-works"
-          className="bg-gradient-to-br from-slate-800 to-gray-900 py-16"
+          className="relative bg-gradient-to-br from-slate-900 to-gray-950 py-16 overflow-hidden"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Animated Gradient Border */}
+          <motion.div
+            className="absolute top-0 left-0 right-0 h-[2px]"
+            animate={{
+              background: [
+                "linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6, #ec4899)",
+                "linear-gradient(90deg, #3b82f6, #ec4899, #8b5cf6, #3b82f6)",
+                "linear-gradient(90deg, #8b5cf6, #3b82f6, #ec4899, #8b5cf6)",
+              ],
+            }}
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+          />
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <motion.h2
-                className="text-4xl font-bold text-white mb-4"
+                className="text-4xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -1035,16 +1231,26 @@ export default function Home() {
         {/* Testimonials Section */}
         <motion.div
           id="testimonials"
-          className="bg-gray-800 py-16"
+          className="relative bg-gray-900 py-16 overflow-hidden"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Side Gradient Borders */}
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-500 via-purple-500 to-pink-500"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-pink-500 via-purple-500 to-cyan-500"></div>
+
+          {/* Corner Gradient Effects */}
+          <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-purple-500/20 to-transparent rounded-br-full"></div>
+          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-blue-500/20 to-transparent rounded-bl-full"></div>
+          <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-pink-500/20 to-transparent rounded-tr-full"></div>
+          <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-cyan-500/20 to-transparent rounded-tl-full"></div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <motion.h2
-                className="text-4xl font-bold text-white mb-4"
+                className="text-4xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
