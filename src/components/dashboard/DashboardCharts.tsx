@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart,
@@ -17,35 +18,70 @@ import {
   Cell,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const reportsData = [
-  { month: "Jan", resolved: 45, pending: 15, total: 60 },
-  { month: "Feb", resolved: 52, pending: 18, total: 70 },
-  { month: "Mar", resolved: 48, pending: 22, total: 70 },
-  { month: "Apr", resolved: 61, pending: 19, total: 80 },
-  { month: "May", resolved: 55, pending: 25, total: 80 },
-  { month: "Jun", resolved: 67, pending: 23, total: 90 },
-];
-
-const categoryData = [
-  { name: "Road Issues", value: 35, color: "#3B82F6" },
-  { name: "Waste Management", value: 25, color: "#10B981" },
-  { name: "Water Supply", value: 20, color: "#F59E0B" },
-  { name: "Street Lights", value: 15, color: "#EF4444" },
-  { name: "Others", value: 5, color: "#8B5CF6" },
-];
-
-const responseTimeData = [
-  { day: "Mon", avgTime: 2.4 },
-  { day: "Tue", avgTime: 1.8 },
-  { day: "Wed", avgTime: 3.2 },
-  { day: "Thu", avgTime: 2.1 },
-  { day: "Fri", avgTime: 2.8 },
-  { day: "Sat", avgTime: 1.9 },
-  { day: "Sun", avgTime: 1.5 },
-];
+import {
+  getReportsOverTime,
+  getCategoryDistribution,
+  getResponseTimeData,
+} from "@/lib/dashboardService";
 
 export function DashboardCharts() {
+  const [reportsData, setReportsData] = useState<any[]>([]);
+  const [categoryData, setCategoryData] = useState<any[]>([]);
+  const [responseTimeData, setResponseTimeData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchChartData() {
+      try {
+        setLoading(true);
+        const [reports, categories, responseTime] = await Promise.all([
+          getReportsOverTime(),
+          getCategoryDistribution(),
+          getResponseTimeData(),
+        ]);
+
+        setReportsData(reports);
+        setCategoryData(categories);
+        setResponseTimeData(responseTime);
+      } catch (error) {
+        console.error("Error fetching chart data:", error);
+        // Fallback data if API fails
+        setReportsData([
+          { month: "Jan", resolved: 0, pending: 0, total: 0 },
+          { month: "Feb", resolved: 0, pending: 0, total: 0 },
+          { month: "Mar", resolved: 0, pending: 0, total: 0 },
+        ]);
+        setCategoryData([{ name: "No Data", value: 100, color: "#9CA3AF" }]);
+        setResponseTimeData([
+          { day: "Mon", avgTime: 0 },
+          { day: "Tue", avgTime: 0 },
+          { day: "Wed", avgTime: 0 },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchChartData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        {[1, 2, 3].map((i) => (
+          <Card key={i} className="animate-pulse">
+            <CardHeader>
+              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px] bg-gray-100 rounded"></div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
       {/* Reports Over Time */}

@@ -14,16 +14,54 @@ import {
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { StatCard } from "@/components/dashboard/StatCard";
-import { DashboardCharts } from "@/components/dashboard/DashboardCharts";
-import { RecentReports } from "@/components/dashboard/RecentReports";
+import {DashboardCharts} from "@/components/dashboard/DashboardCharts";
+import RecentReports from "@/components/dashboard/RecentReports";
 import { CommandModal } from "@/components/dashboard/CommandModal";
 import { FloatingActionButton } from "@/components/dashboard/FloatingActionButton";
 import { ToastProvider, toast } from "@/components/ui/toast";
+import { getDashboardStats, subscribeToReports } from "@/lib/dashboardService";
 import { cn } from "@/lib/utils";
 
 export default function DashboardPage() {
   const [activeItem, setActiveItem] = useState("dashboard");
   const [commandModalOpen, setCommandModalOpen] = useState(false);
+  const [dashboardStats, setDashboardStats] = useState({
+    totalReports: 0,
+    resolvedReports: 0,
+    pendingReports: 0,
+    activeUsers: 0,
+    averageResponseTime: 0,
+    resolutionRate: 0,
+  });
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  // Load dashboard stats
+  useEffect(() => {
+    async function loadStats() {
+      try {
+        setStatsLoading(true);
+        const stats = await getDashboardStats();
+        setDashboardStats(stats);
+      } catch (error) {
+        console.error("Error loading dashboard stats:", error);
+        toast.error("Failed to load statistics", "Please refresh the page");
+      } finally {
+        setStatsLoading(false);
+      }
+    }
+
+    loadStats();
+
+    // Set up real-time subscription for reports
+    const unsubscribe = subscribeToReports(() => {
+      // Reload stats when reports change
+      loadStats();
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   // Command modal keyboard shortcut
   useEffect(() => {
@@ -80,30 +118,47 @@ export default function DashboardPage() {
             >
               {/* Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard
-                  title="Total Reports"
-                  value="1,234"
-                  icon={<FileText className="h-6 w-6 text-blue-600" />}
-                  change={{ value: 12, type: "increase" }}
-                />
-                <StatCard
-                  title="Resolved"
-                  value="856"
-                  icon={<CheckCircle className="h-6 w-6 text-green-600" />}
-                  change={{ value: 8, type: "increase" }}
-                />
-                <StatCard
-                  title="Pending"
-                  value="234"
-                  icon={<Clock className="h-6 w-6 text-yellow-600" />}
-                  change={{ value: 3, type: "decrease" }}
-                />
-                <StatCard
-                  title="Active Users"
-                  value="5,678"
-                  icon={<Users className="h-6 w-6 text-purple-600" />}
-                  change={{ value: 15, type: "increase" }}
-                />
+                {statsLoading ? (
+                  // Loading skeleton
+                  [1, 2, 3, 4].map((i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="bg-white rounded-xl border border-gray-200 p-6">
+                        <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                        <div className="h-8 bg-gray-200 rounded w-3/4 mb-2"></div>
+                        <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <StatCard
+                      title="Total Reports"
+                      value={dashboardStats.totalReports.toLocaleString()}
+                      icon={<FileText className="h-6 w-6 text-blue-600" />}
+                      change={{ value: 12, type: "increase" }}
+                    />
+                    <StatCard
+                      title="Resolved"
+                      value={dashboardStats.resolvedReports.toLocaleString()}
+                      icon={<CheckCircle className="h-6 w-6 text-green-600" />}
+                      change={{
+                        value: dashboardStats.resolutionRate,
+                        type: "increase",
+                      }}
+                    />
+                    <StatCard
+                      title="Pending"
+                      value={dashboardStats.pendingReports.toLocaleString()}
+                      icon={<Clock className="h-6 w-6 text-yellow-600" />}
+                    />
+                    <StatCard
+                      title="Active Users"
+                      value={dashboardStats.activeUsers.toLocaleString()}
+                      icon={<Users className="h-6 w-6 text-purple-600" />}
+                      change={{ value: 15, type: "increase" }}
+                    />
+                  </>
+                )}
               </div>
 
               {/* Charts */}
