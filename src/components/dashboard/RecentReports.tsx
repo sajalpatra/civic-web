@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Eye, Edit, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import ReportDetailsModal from "@/components/ReportDetailsModal";
 import { cn, getStatusColor, getPriorityColor, formatDate } from "@/lib/utils";
 import {
   getRecentReports,
@@ -17,6 +18,8 @@ export default function RecentReports() {
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
   const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchReports() {
@@ -207,6 +210,11 @@ export default function RecentReports() {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
+                            onClick={() => {
+                              setSelectedReport(report);
+                              setDetailsModalOpen(true);
+                            }}
+                            title="View Details"
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
@@ -214,6 +222,7 @@ export default function RecentReports() {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
+                            title="Edit Report"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -221,6 +230,7 @@ export default function RecentReports() {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8 text-red-600 hover:text-red-700"
+                            title="Delete Report"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -233,6 +243,27 @@ export default function RecentReports() {
             </div>
           )}
         </CardContent>
+
+        {/* Report Details Modal */}
+        <ReportDetailsModal
+          open={detailsModalOpen}
+          onClose={() => {
+            setDetailsModalOpen(false);
+            setSelectedReport(null);
+          }}
+          report={selectedReport}
+          onAssign={(staff: string) => {
+            toast.success("Staff Assigned", `Report assigned to ${staff}`);
+            // TODO: Implement actual assignment functionality
+          }}
+          onAddComment={(comment: string) => {
+            toast.success(
+              "Comment Added",
+              "Your comment has been added to the report"
+            );
+            // TODO: Implement actual comment functionality
+          }}
+        />
       </Card>
     </motion.div>
   );

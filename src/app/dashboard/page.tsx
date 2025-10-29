@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
   BarChart3,
   Users,
@@ -14,17 +15,24 @@ import {
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { StatCard } from "@/components/dashboard/StatCard";
-import {DashboardCharts} from "@/components/dashboard/DashboardCharts";
+import { DashboardCharts } from "@/components/dashboard/DashboardCharts";
 import RecentReports from "@/components/dashboard/RecentReports";
 import { CommandModal } from "@/components/dashboard/CommandModal";
 import { FloatingActionButton } from "@/components/dashboard/FloatingActionButton";
+import { LogoutModal } from "@/components/dashboard/LogoutModal";
 import { ToastProvider, toast } from "@/components/ui/toast";
 import { getDashboardStats, subscribeToReports } from "@/lib/dashboardService";
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
+const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [activeItem, setActiveItem] = useState("dashboard");
   const [commandModalOpen, setCommandModalOpen] = useState(false);
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [mapStatusFilter, setMapStatusFilter] = useState("all");
+  const [mapCategoryFilter, setMapCategoryFilter] = useState("all");
   const [dashboardStats, setDashboardStats] = useState({
     totalReports: 0,
     resolvedReports: 0,
@@ -76,7 +84,34 @@ export default function DashboardPage() {
   }, []);
 
   const handleItemClick = (item: string) => {
-    setActiveItem(item);
+    if (item === "logout") {
+      setLogoutModalOpen(true);
+    } else {
+      setActiveItem(item);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Add a small delay for better UX
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Clear any stored authentication data
+      localStorage.removeItem("authToken");
+      sessionStorage.clear();
+
+      // Show success message
+      toast.success(
+        "Logged out successfully",
+        "You have been signed out of your account"
+      );
+
+      // Redirect to login page
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Logout failed", "Please try again");
+    }
   };
 
   const handleQuickAction = (action: string) => {
@@ -235,6 +270,81 @@ export default function DashboardPage() {
             </motion.div>
           </AnimatePresence>
         );
+      case "map":
+        return (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="map"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
+              {/* Filter Controls */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+                <div className="flex flex-wrap gap-4 items-center">
+                  <div className="flex items-center space-x-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Status:
+                    </label>
+                    <select
+                      value={mapStatusFilter}
+                      onChange={(e) => setMapStatusFilter(e.target.value)}
+                      className="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="all">All Status</option>
+                      <option value="submitted">Submitted</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="resolved">Resolved</option>
+                      <option value="closed">Closed</option>
+                    </select>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Category:
+                    </label>
+                    <select
+                      value={mapCategoryFilter}
+                      onChange={(e) => setMapCategoryFilter(e.target.value)}
+                      className="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="all">All Categories</option>
+                      <option value="roads">Roads</option>
+                      <option value="water">Water</option>
+                      <option value="electricity">Electricity</option>
+                      <option value="waste">Waste Management</option>
+                      <option value="public safety">Public Safety</option>
+                      <option value="parks">Parks</option>
+                      <option value="streetlights">Street Lights</option>
+                      <option value="general">General</option>
+                    </select>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setMapStatusFilter("all");
+                      setMapCategoryFilter("all");
+                    }}
+                    className="ml-auto px-4 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                  >
+                    Reset Filters
+                  </button>
+                </div>
+              </div>
+
+              {/* Map Container */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div className="h-[calc(100vh-16rem)]">
+                  <Map
+                    statusFilter={mapStatusFilter}
+                    categoryFilter={mapCategoryFilter}
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        );
       default:
         return (
           <AnimatePresence mode="wait">
@@ -314,6 +424,7 @@ export default function DashboardPage() {
           <DashboardHeader
             title={getPageTitle()}
             subtitle={getPageSubtitle()}
+            onLogout={() => setLogoutModalOpen(true)}
           />
 
           {/* Page Content */}
@@ -325,6 +436,13 @@ export default function DashboardPage() {
           open={commandModalOpen}
           onClose={() => setCommandModalOpen(false)}
           onNavigate={handleItemClick}
+        />
+
+        {/* Logout Confirmation Modal */}
+        <LogoutModal
+          isOpen={logoutModalOpen}
+          onClose={() => setLogoutModalOpen(false)}
+          onConfirm={handleLogout}
         />
 
         {/* Floating Action Button */}
