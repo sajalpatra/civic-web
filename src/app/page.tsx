@@ -4,7 +4,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import DarkModeToggle from "../components/DarkModeToggle";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import Lenis from "@studio-freight/lenis";
+import Lenis from "lenis";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -624,7 +624,7 @@ export default function Home() {
                   />
                   <Link
                     href="/login"
-                    className="relative inline-flex items-center justify-center px-8 py-4 border-2 border-gradient-to-r from-emerald-300 to-blue-300 text-lg font-medium rounded-lg bg-gradient-to-r from-white/90 to-gray-50/90 dark:from-gray-800/90 dark:to-gray-700/90 hover:from-emerald-50 hover:to-blue-50 dark:hover:from-emerald-900/20 dark:hover:to-blue-900/20 text-gray-700 dark:text-gray-200 hover:text-emerald-700 dark:hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 shadow-md hover:shadow-xl backdrop-blur-sm"
+                    className="relative inline-flex items-center justify-center px-8 py-4 border-2 border-gradient-to-r from-emerald-300 to-blue-300 text-lg font-medium rounded-lg bg-gradient-to-r dark:from-gray-800/90 dark:to-gray-700/90 hover:from-emerald-50 hover:to-blue-50 dark:hover:from-emerald-900/20 dark:hover:to-blue-900/20 text-gray-700 dark:text-gray-200 hover:text-emerald-700 dark:hover:text-emerald-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 shadow-md hover:shadow-xl backdrop-blur-sm"
                   >
                     <motion.svg
                       className="w-5 h-5 mr-2"

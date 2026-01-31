@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -15,7 +15,7 @@
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-progress": "^1.1.7",
     "@radix-ui/react-tabs": "^1.1.13",
-    "@studio-freight/lenis": "^1.0.42",
+    "lenis": "^1.1.18",
     "@supabase/supabase-js": "^2.57.4",
     "chart.js": "^4.5.0",
     "class-variance-authority": "^0.7.1",
