@@ -23,7 +23,7 @@ export default function Home() {
   const navbarOpacity = useTransform(
     scrollYProgress,
     [0, 0.05, 0.1],
-    [0.95, 0.98, 1]
+    [0.95, 0.98, 1],
   );
   const navbarBlur = useTransform(scrollYProgress, [0, 0.1], [8, 16]);
   const navbarScale = useTransform(scrollYProgress, [0, 0.05], [0.98, 1]);
